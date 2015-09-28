@@ -1,0 +1,46 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+
+
+class queryMess
+{
+    static void Main()
+    {
+        string inputLine = Console.ReadLine();
+        Regex space = new Regex(@"((%20|\+)+)");
+        while (inputLine != "END")
+        {
+            MatchCollection query=Regex.Matches(inputLine,
+                            @"(?:%20|\+)*([^?]*?)(?:%20|\+)*=(?:%20|\+)*(.*?)(?:%20|\+)*(?:&|\Z|\s)");
+
+            Dictionary < string , List < string >> output = new Dictionary<string,List < string >>();
+
+            foreach (Match match in query)
+            {
+                string field = space.Replace(match.Groups[1].ToString(), " ").Trim();
+                string value = space.Replace(match.Groups[2].ToString(), " ").Trim();
+
+                if (!output.ContainsKey(field))
+                {
+                    output.Add(field, new List<string>());
+                }
+                output[field].Add(value);
+            }
+
+            foreach (var line in output)
+            {
+                Console.Write(line.Key);
+                Console.Write("=[" + string.Join(", ", line.Value) + "]");
+            }
+            Console.WriteLine();
+            inputLine = Console.ReadLine();
+        }
+
+
+    }
+}
+
