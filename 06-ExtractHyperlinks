@@ -1,0 +1,38 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+
+class extractHyperlinks
+{
+    static void Main()
+    {
+        StringBuilder text = new StringBuilder();
+        string line = Console.ReadLine();
+
+        while (line != "END")
+        {
+            text.Append(line);
+            line = Console.ReadLine();
+        }
+        Regex regex = new Regex(@"<a\s+(?:[^>]+\s+)?href\s*=\s*(?:'([^']*)'|""([^""]*)""|([^\s>]+))[^>]*>");
+        string input = text.ToString();
+        Match matches = regex.Match(input);
+
+        while (matches!=Match.Empty)
+        {
+         for (int i = 1; i < matches.Groups.Count; i++)
+                {
+                    if (matches.Groups[i].Value!=string.Empty)
+                    {
+                        Console.WriteLine(matches.Groups[i].Value);
+                    }
+                }
+                matches = matches.NextMatch();
+        }
+       
+    }
+}
+
