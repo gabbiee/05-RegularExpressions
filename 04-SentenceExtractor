@@ -1,0 +1,36 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+
+class sentenceExtractor
+{
+
+    static void Main()
+    {
+        string keyword = Console.ReadLine().Trim();
+        keyword = @"\b" + keyword + @"\b";
+        string text = Console.ReadLine();
+        string sentencePattern = @"[A-Z][A-Za-z\s\-\,\:\;\']*[\.\!\?]";
+        Regex sentenceRegex = new Regex(sentencePattern);
+        MatchCollection matches = sentenceRegex.Matches(text);
+
+       
+        foreach (Match match in matches)
+        {
+            string sentence = match.Value;
+            if (Regex.IsMatch(sentence,keyword))
+            {
+                Console.WriteLine(sentence);
+            }
+            else
+            {
+                Console.WriteLine("No matches.");
+            }
+           
+        }
+    }
+}
+
